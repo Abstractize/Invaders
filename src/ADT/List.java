@@ -31,12 +31,57 @@ public class List {
 		this.length = length;
 	}
 	//Métodos
+	public void add(int value){//Agregar un miembro a la hilera al final
+		Nodo New = new Nodo();
+		New.setValue(value);
+		if (empty()){
+			head = New;
+		}
+		else{
+			Nodo aux = head;
+			while(aux.getNext() != null){
+				aux.getNext();
+			}
+			aux.setNext(New);
+		}
+		length++;
+	}
+	public boolean search(int reference){
+		Nodo aux = head;
+		boolean flag=false;
+		while (aux != null && flag != true){
+			if (reference == aux.getValue()){
+				flag = true;
+			}
+			else{
+				aux = aux.getNext();
+			}
+		}
+	return flag;
+	}
+	public void delete(int reference){//Elimina un miembro por referencia
+		if (search(reference)){
+			if (head.getValue() == reference){
+				head = head.getNext();
+			}
+			else{
+				Nodo aux = head;
+				while(aux.getNext().getValue() != reference){
+					aux = aux.getNext();
+				}
+				Nodo next = aux.getNext().getNext();
+				aux.setNext(next);
+			}
+		}
+	}
 
-	public void delete(){//Eliminar un miembro de la hilera
+	public void delete(){//Elimina la lista
+		head = null;
+		length = 0;
+	}
+	public void edit(){
 		
 	}
-	public void add(){//Agregar un miembro a la hilera
-		
-	}
+	
 	
 }

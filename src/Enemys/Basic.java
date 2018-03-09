@@ -1,5 +1,7 @@
 package Enemys;
 
-public class Basic {
+import ADT.List;
+
+public class Basic extends List{
 
 }

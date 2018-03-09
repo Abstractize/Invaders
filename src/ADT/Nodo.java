@@ -24,5 +24,4 @@ public class Nodo {
 	public void setNext(Nodo next) {
 		this.next = next;
 	}
-	//Referencia: http://codigolibre.weebly.com/blog/listas-simples-en-java
 }
