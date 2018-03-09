@@ -9,6 +9,11 @@ public class List {
 		setHead(null);
 		setLength(0);
 	}
+	//Validador de Lista Vacia
+	public boolean empty(){
+		return head == null;
+	}
+	
 	//Getters y Setters
 	public Nodo getHead() {
 		return head;
