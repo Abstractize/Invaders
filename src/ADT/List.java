@@ -31,9 +31,7 @@ public class List {
 		this.length = length;
 	}
 	//Métodos
-	public void movement(){//Movimiento de las Naves
-		
-	}
+
 	public void delete(){//Eliminar un miembro de la hilera
 		
 	}
