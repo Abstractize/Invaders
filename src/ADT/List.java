@@ -1,14 +1,13 @@
 package ADT;
 
+import singleEnemys.Enemy;
+
 public class List {
 	//Atributos
 	private Nodo head;
 	private int length;
 	//Constructor
-	public List(){
-		setHead(null);
-		setLength(0);
-	}
+
 	//Validador de Lista Vacia
 	public boolean empty(){
 		return head == null;
@@ -30,8 +29,8 @@ public class List {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	//Métodos
-	public void add(int value){//Agregar un miembro a la hilera al final
+	//Mï¿½todos
+	public void add(Enemy value){//Agregar un miembro a la hilera al final
 		Nodo New = new Nodo();
 		New.setValue(value);
 		if (empty()){
@@ -46,7 +45,7 @@ public class List {
 		}
 		length++;
 	}
-	public boolean search(int reference){
+	public boolean search(Enemy reference){
 		Nodo aux = head;
 		boolean flag=false;
 		while (aux != null && flag != true){
@@ -59,7 +58,7 @@ public class List {
 		}
 	return flag;
 	}
-	public void delete(int reference){//Elimina un miembro por referencia
+	public void delete(Enemy reference){//Elimina un miembro por referencia
 		if (search(reference)){
 			if (head.getValue() == reference){
 				head = head.getNext();

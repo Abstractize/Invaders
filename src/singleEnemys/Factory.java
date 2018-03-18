@@ -1,5 +1,5 @@
 package singleEnemys;
 
-public class PinataBoss {
+public class Factory {
 
 }

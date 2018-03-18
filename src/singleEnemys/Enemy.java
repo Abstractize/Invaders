@@ -1,5 +1,6 @@
 package singleEnemys;
 
-public class Sombrero {
+public class Enemy {
+	
 
 }

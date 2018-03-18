@@ -1,19 +1,21 @@
 package ADT;
 
+import singleEnemys.Enemy;
+
 public class Nodo {
-	private int value;
+	private Enemy value;
 	private Nodo next;
 	
 	public Nodo(){
-		this.setValue(0);
+		this.setValue(null);
 		this.setNext(null);
 	}
 
-	public int getValue() {
+	public Enemy getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(Enemy value) {
 		this.value = value;
 	}
 
