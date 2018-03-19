@@ -1,118 +1,97 @@
 package Display;
 
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferStrategy;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.JFrame;
+import javax.swing.Timer;
 
-import state.StateMachine;
+import game.*;
 
-public class Display extends Canvas implements Runnable{
+import javax.swing.JPanel;
+
+public class Display extends JPanel implements KeyListener, ActionListener {
+	//variables de juego
+	private int score = 0;
+	private int Level;
+	private int Width;
+	private int Heigth;
 	
-	private static final long serialVersionUID = 1l;
-	//private static Toolkit tk = Toolkit.getDefaultToolkit();;
+	private int totalBricks = 21;
+	//Timer
+	private Timer timer;
+	private int delay = 0;
+	//Jugador
+	Player player = new Player();
+	Bullets bullet = new Bullets(player.getPosX(),player.getPosY());
 	
-	public static void main(String[] args) {
-		Display display = new Display();
-		JFrame frame = new JFrame();
-		frame.add(display);
-		frame.pack();
-		frame.setTitle("Taco Invaders");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(true);
-		frame.setVisible(true);
-		display.start();
-		}
-	private boolean running = false;
-	private Thread thread;
-	
-	public synchronized void start() {
-		if(running)
-			return;
-		running = true;
-		
-		thread = new Thread(this);
-		thread.start();
-		}
-	public synchronized void stop() {
-		if(!running)
-			return;
-		running = false;
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
+	public Display(int width, int heigth) {
+		Width = width;
+		Heigth = heigth;
+		Level = 1;
+		addKeyListener(this);
+		setFocusable(true);
+		setFocusTraversalKeysEnabled(false);
+		timer = new Timer(delay,this);
+		timer.start();
 	}
-	public static int WIDTH = 1366 , HEIGHT = 768	;
-	public int FPS;
-	
-	public static StateMachine state;
-	
-	public Display() {
-		this.setSize(WIDTH, HEIGHT);
-		this.setFocusable(true);
+	public void paint(Graphics g) {
+		//background
+		g.setColor(Color.black);//color
+		g.fillRect(Width*1/4, 0, Width/2, Heigth);//size
+		//Player_Applets
+		g.setColor(Color.gray);//color
+		g.fillRect(0, 0, Width/4, Heigth);//size
+		g.setColor(Color.gray);//color
+		g.fillRect(Width*3/4, 0, Width*1/4, Heigth);//size
 		
-		state = new StateMachine(this);
-		state.setState((byte) 0);
+		//Player
+		player.paint(g);
+		bullet.paint(g);//Not working yet
+		
+		
+		g.dispose();
+		}
+		
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		timer.start();
+		bullet.update(player.getCentX(),player.getPosY());
+		repaint();
+		// TODO Auto-generated method stub
+		
 		
 	}
 	@Override
-	public void run() {
-		long timer = System.currentTimeMillis();
-		long lastLoopTime = System.nanoTime();
-		final int TARGET_FPS = 60;
-		final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
-		int frames = 0;
-		
-		this.createBufferStrategy(3);
-		BufferStrategy bs = this.getBufferStrategy();
-		while(running) {
-			long now = System.nanoTime();
-			long updateLength = now - lastLoopTime;
-			lastLoopTime = now;
-			double delta = updateLength / ((double) OPTIMAL_TIME);
-			
-			frames++;
-			
-			if(System.currentTimeMillis()- timer > 1000) {
-				timer += 1000;
-				FPS = frames;
-				frames = 0;
-				System.out.println(FPS);
-			}
-			draw(bs);
-			update(delta);
-			
-			try {
-				Thread.sleep(((lastLoopTime - System.nanoTime()) + OPTIMAL_TIME)/1000000);
-			} catch(Exception e) {
-				
-			}
-					
-			System.out.println("This is running") ;
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			bullet.setShoot(true);
 		}
+		if (e.getKeyCode() == KeyEvent.VK_D) {
+			player.moveRigth();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_A) {
+			player.moveLeft();
+		}
+		// TODO Auto-generated method stub
 	}
-	public void draw(BufferStrategy bs) {
-		do {			
-			do {
-				Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-				g.setColor(Color.BLACK);
-				g.fillRect(0, 0, WIDTH + 50, HEIGHT + 50);
-				
-				state.draw(g);
-				
-				g.dispose();
-			}while (bs.contentsRestored());
-			bs.show();
-		}while(bs.contentsLost());
-			
-	}
-	public void update(double delta) {
-		state.update(delta);
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+
 }
+
