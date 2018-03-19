@@ -9,24 +9,31 @@ import java.awt.event.KeyListener;
 
 import javax.swing.Timer;
 
+import Enemys.*;
 import game.*;
 
 import javax.swing.JPanel;
 
 public class Display extends JPanel implements KeyListener, ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//variables de juego
-	private int score = 0;
+	//private int score = 0;
 	private int Level;
 	private int Width;
 	private int Heigth;
 	
-	private int totalBricks = 21;
+	//private int totalBricks = 21;
 	//Timer
 	private Timer timer;
 	private int delay = 0;
 	//Jugador
 	Player player = new Player();
 	Bullets bullet = new Bullets(player.getPosX(),player.getPosY());
+	//Enemigos
+	Basic enemies = new Basic(Width,Heigth,Level);
 	
 	public Display(int width, int heigth) {
 		Width = width;
@@ -50,7 +57,8 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		
 		//Player
 		player.paint(g);
-		bullet.paint(g);//Not working yet
+		bullet.paint(g);
+		enemies.draw(g);
 		
 		
 		g.dispose();

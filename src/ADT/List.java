@@ -29,7 +29,7 @@ public class List {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	//M�todos
+	//Metodos
 	public void add(Enemy value){//Agregar un miembro a la hilera al final
 		Nodo New = new Nodo();
 		New.setValue(value);
@@ -74,12 +74,24 @@ public class List {
 		}
 	}
 
-	public void delete(){//Elimina la lista
+	public void erase(){//Elimina la lista
 		head = null;
 		length = 0;
 	}
-	public void edit(){
-		
+	public Enemy getValue(int pos) {//Obtener valor por referencia
+		if(pos >= 0 && pos < length) {
+			if (pos == 0){
+				return head.getValue();
+			}else {
+				Nodo aux = head;
+				for (int i = 0; i < pos; i++) {
+					aux = aux.getNext();
+				}
+				return aux.getValue();
+			}
+		}else {
+			return null;
+		}
 	}
 	
 	

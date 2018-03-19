@@ -3,7 +3,7 @@ package singleEnemys;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public abstract class Enemy {
+public class Enemy {
 	protected int PosX;
 	protected int PosY;
 	protected int sizeX;
