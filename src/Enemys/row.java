@@ -65,7 +65,6 @@ public abstract class row {
 	public void setx(){
 		for (int i = 0; i < length; i++) {
 			this.Xconstant = list.getValue(0).getPosX()+20; 
-			System.out.println(Xconstant);
 			int PosX = Xconstant + 30*i;
 			Enemy aux = list.getValue(i);
 			aux.setPosX(PosX);

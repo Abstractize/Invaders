@@ -33,7 +33,8 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	Player player;
 	Bullets bullet;
 	//Enemigos
-	Basic enemies;
+	row enemies;
+	Factory factory;
 	
 	public Display(int width, int heigth) {
 		Width = width;
@@ -48,7 +49,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		player = new Player();
 		bullet = new Bullets(player.getPosX(),player.getPosY());
 		//Enemigos
-		enemies = new Basic(Width, Level);
+		enemies = factory.create(Width,Level);
 	}
 	public void paint(Graphics g) {
 		//background
