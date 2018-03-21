@@ -15,15 +15,13 @@ public abstract class Enemy {
 		sizeY = 25;
 		setImage(Color.blue);
 		
-		resistance = 1 + (level-1);//incrementa de acuerdo al nivel		
+		resistance = (level-1);//incrementa de acuerdo al nivel		
 		}
 	public void sumPosX(int sum) {
 		this.PosX += sum; 
 	}
-	public void collision(int bulletx, int bullety) {
-		if(bulletx >= this.PosX && bulletx <= this.sizeX + this.PosX){
-			
-		}
+	public void minusRes(int value) {
+		this.resistance-=value;
 	}
 
 //Getter y Setters

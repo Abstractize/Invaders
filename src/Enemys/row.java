@@ -37,30 +37,36 @@ public abstract class row {
 		}
 	}
 	public void draw(Graphics g) {
-		for (int i = 0; i < length; i++) {
-			Enemy aux = this.list.getValue(i);
-			g.setColor(aux.getImage());
-			g.fillRect(aux.getPosX(),PosY,aux.getSizeX(),aux.getSizeY());
-			}
+		if (!this.list.empty()) {
+			for (int i = 0; i < length; i++) {
+				Enemy aux = this.list.getValue(i);
+				g.setColor(aux.getImage());
+				g.fillRect(aux.getPosX(),PosY,aux.getSizeX(),aux.getSizeY());
+			}	
+		}
+		
 	}
 	public void update(int level) {
 		int value = 30 - (level-1);
-		if (cont==value){
-			for (int i = 0; i < length; i++) {
-				Enemy aux = this.list.getValue(i);
-				aux.sumPosX(this.direc);
+		if (!this.list.empty()) {
+			if (cont==value){
+				for (int i = 0; i < length; i++) {
+					Enemy aux = this.list.getValue(i);
+					aux.sumPosX(this.direc);
+				}
+				if(list.getValue(0).getPosX() == MinX){//Cambiar de acuerdo a velocidad
+					this.direc = 1;
+					this.PosY +=10;
+				}
+				if(list.getValue(length-1).getPosX()+30 == MaxX) {
+					this.direc = -1;
+					this.PosY +=10;
+				}
+				cont = 0;
 			}
-			if(list.getValue(0).getPosX() == MinX){//Cambiar de acuerdo a velocidad
-				this.direc = 1;
-				this.PosY +=10;
-			}
-			if(list.getValue(length-1).getPosX()+30 == MaxX) {
-				this.direc = -1;
-				this.PosY +=10;
-			}
-			cont = 0;
+			cont++;
 		}
-		cont++;
+		
 	}
 	public void setx(){
 		for (int i = 0; i < length; i++) {
@@ -75,15 +81,20 @@ public abstract class row {
 			for (int i = 0; i < length; i++) {
 				Enemy aux = list.getValue(i);
 				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {
-					this.list.delete(aux);
-					length --;
-					this.setx();
-							
-					
+					if (aux.getResistance() == 0) {
+						this.list.delete(aux);
+						length --;
+						this.setx();
+					}else {
+						aux.minusRes(1);;
+					}
 				}
 			}
 			
 		}
+	}
+	public List getList() {
+		return this.list;
 	}
 
 }

@@ -24,6 +24,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	private int Level;
 	private int Width;
 	private int Heigth;
+	private int Cont;
 	
 	//private int totalBricks = 21;
 	//Timer
@@ -34,7 +35,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	Bullets bullet;
 	//Enemigos
 	row enemies;
-	Factory factory;
+	row next;
 	
 	public Display(int width, int heigth) {
 		Width = width;
@@ -45,11 +46,13 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay,this);
 		timer.start();
+		Cont=5;
 		//Jugador
 		player = new Player();
 		bullet = new Bullets(player.getPosX(),player.getPosY());
 		//Enemigos
-		enemies = factory.create(Width,Level);
+		enemies = Factory.create(Width,Level);
+		next = Factory.create(Width, Level);
 	}
 	public void paint(Graphics g) {
 		//background
@@ -70,13 +73,30 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		
 		g.dispose();
 		}
+	public void update(){
+		if (enemies.getList().empty()){
+			if (Cont == 0) {
+				Level++;
+				Cont = Level*5;
+				System.out.println(Cont);
+		}else {
+			Cont--;
+			enemies=next;
+			next=Factory.create(Width,Level);
+			System.out.println(Cont);
+		}
 		
+			
+			
+		}
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.start();
 		bullet.update(player.getCentX(),player.getPosY());
 		enemies.update(Level);
 		enemies.collision(bullet.getPosX(), bullet.getPosY());
+		this.update();
 		repaint();
 		// TODO Auto-generated method stub
 		

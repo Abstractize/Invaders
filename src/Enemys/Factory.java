@@ -1,15 +1,11 @@
 package Enemys;
 
-
-public class Factory {
-	int random;
-	row enemy;
-	public Factory(int width, int level) {
-		// TODO Auto-generated constructor stub
-	}
-	public row create(int width, int level) {
-		random = (int) ((Math.random() * 5) + 1);
+//Abstract Factory
+public interface Factory {
+	public static row create(int width, int level) {
+		int random = (int) ((Math.random() * 5) + 1);
 		System.out.println(random);
+		row enemy= null;
 		if (random == 1) {
 			enemy = new Basic(width,level);
 		}else if(random == 2) {
