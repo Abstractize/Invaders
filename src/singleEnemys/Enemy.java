@@ -1,34 +1,30 @@
 package singleEnemys;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
-public class Enemy {
+public abstract class Enemy {
 	protected int PosX;
-	protected int PosY;
 	protected int sizeX;
 	protected int sizeY;
 	protected int resistance;
+	protected Color image;
 	
-	public Enemy(int x, int y,int level) {
+	public Enemy(int x,int level) {
 		PosX = x;
-		PosY = y;
 		sizeX = 25;
 		sizeY = 25;
-		resistance = 1 + (level-1);//incrementa de acuerdo al nivel
+		setImage(Color.blue);
 		
-		
-		
+		resistance = 1 + (level-1);//incrementa de acuerdo al nivel		
 		}
-	public void draw(Graphics g) {
-		g.setColor(Color.blue);
-		g.fillRect(PosX, PosY, sizeX, sizeY);
+	public void sumPosX(int sum) {
+		this.PosX += sum; 
 	}
-	
-	
-	
-	
-	
+	public void collision(int bulletx, int bullety) {
+		if(bulletx >= this.PosX && bulletx <= this.sizeX + this.PosX){
+			
+		}
+	}
 
 //Getter y Setters
 	public int getPosX() {
@@ -39,13 +35,6 @@ public class Enemy {
 		PosX = posX;
 	}
 
-	public int getPosY() {
-		return PosY;
-	}
-
-	public void setPosY(int posY) {
-		PosY = posY;
-	}
 
 	public int getSizeX() {
 		return sizeX;
@@ -69,5 +58,13 @@ public class Enemy {
 
 	public void setResistance(int resistance) {
 		this.resistance = resistance;
+	}
+
+	public Color getImage() {
+		return image;
+	}
+
+	public void setImage(Color image) {
+		this.image = image;
 	}
 }

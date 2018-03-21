@@ -30,10 +30,10 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	private Timer timer;
 	private int delay = 0;
 	//Jugador
-	Player player = new Player();
-	Bullets bullet = new Bullets(player.getPosX(),player.getPosY());
+	Player player;
+	Bullets bullet;
 	//Enemigos
-	Basic enemies = new Basic(Width,Heigth,Level);
+	Basic enemies;
 	
 	public Display(int width, int heigth) {
 		Width = width;
@@ -44,6 +44,11 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		setFocusTraversalKeysEnabled(false);
 		timer = new Timer(delay,this);
 		timer.start();
+		//Jugador
+		player = new Player();
+		bullet = new Bullets(player.getPosX(),player.getPosY());
+		//Enemigos
+		enemies = new Basic(Width, Level);
 	}
 	public void paint(Graphics g) {
 		//background
@@ -58,6 +63,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		//Player
 		player.paint(g);
 		bullet.paint(g);
+		//Enemies
 		enemies.draw(g);
 		
 		
@@ -68,6 +74,8 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		timer.start();
 		bullet.update(player.getCentX(),player.getPosY());
+		enemies.update(Level);
+		enemies.collision(bullet.getPosX(), bullet.getPosY());
 		repaint();
 		// TODO Auto-generated method stub
 		

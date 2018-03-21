@@ -39,7 +39,7 @@ public class List {
 		else{
 			Nodo aux = head;
 			while(aux.getNext() != null){
-				aux.getNext();
+				aux=aux.getNext();
 			}
 			aux.setNext(New);
 		}
@@ -71,6 +71,7 @@ public class List {
 				Nodo next = aux.getNext().getNext();
 				aux.setNext(next);
 			}
+			length--;
 		}
 	}
 
