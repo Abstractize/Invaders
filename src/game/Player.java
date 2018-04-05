@@ -1,8 +1,10 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Graphics;
-//import java.net.URL;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 
 
 
@@ -12,19 +14,21 @@ public class Player {
 	private int pixel_length;
 	private int pixel_heigth;		
 	private int Width;
+	private ImageIcon icon;
+	private Image image;
 	
 	
 	public Player(){
-		pixel_length = 50;
-		pixel_heigth = 50;
+		pixel_length = 100;
+		pixel_heigth = 100;
 		PosX = 683-(pixel_length/2);
 		PosY = 610;
 		Width = 1366;
-
+		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\Invaders-master\\src\\images\\MexicanHat.png");
+		image = icon.getImage();
 	}
 	public void paint(Graphics g) {
-		g.setColor(Color.green);
-		g.fillRect(PosX, PosY, pixel_length, pixel_heigth);
+		g.drawImage(image, PosX, PosY, pixel_length, pixel_heigth, null);
 
 	}
 	public void moveRigth() {

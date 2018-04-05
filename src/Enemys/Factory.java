@@ -3,8 +3,8 @@ package Enemys;
 //Abstract Factory
 public interface Factory {
 	public static row create(int width, int level) {
-		int random = (int) ((Math.random() * 5) + 1);
-		System.out.println(random);
+		//int random = (int) ((Math.random() * 6) + 1);
+		int random = 3;
 		row enemy= null;
 		if (random == 1) {
 			enemy = new Basic(width,level);
@@ -19,10 +19,7 @@ public interface Factory {
 		}else if (random == 6) {
 			enemy = new ClassE(width,level);
 		}
-		return enemy;
-
-
-		
+		return enemy;		
 	}
 
 }

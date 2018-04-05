@@ -2,8 +2,12 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import singleEnemys.Enemy;
 
 public class Bullets extends JPanel{
 	/**
@@ -17,32 +21,39 @@ public class Bullets extends JPanel{
 	private int sizeX;
 	private int sizeY;
 	private boolean shoot;
+	//imagenes
+	private ImageIcon icon;
+	private Image image;
 	
 	public Bullets(int x,int y) {
 		PosX=x;
 		PosY=y;
 		PosX = PosXinit;
 		PosY = PosYinit;
-		sizeX=5;
-		sizeY=15;
+		sizeX=55;
+		sizeY=90;
 		shoot = false;
+		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\Invaders-master\\src\\images\\burrito.png");
+		image = icon.getImage();
 		
 		
 	}
 	@Override
 	public void paint(Graphics g) {
 		if (shoot) {
-			g.setColor(Color.red);
-			g.fillRect(PosX, PosY, sizeX, sizeY);	
+			g.drawImage(image, PosX, PosY, sizeX, sizeY, null);
 		}
 	
 }
-	public void update(int x,int y) {
+	public void update(int x,int y,boolean bool) {
 		if (shoot){
 			PosY-=1;
 		}
-		if (PosY == 0) {
+		if (PosY < 0) {
 			shoot= false;
+		}
+		if (bool) {
+			shoot = false;
 		}
 		if (!shoot) {
 			PosY=y;

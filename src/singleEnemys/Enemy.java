@@ -1,24 +1,27 @@
 package singleEnemys;
 
-import java.awt.Color;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 public abstract class Enemy {
 	protected int PosX;
 	protected int sizeX;
 	protected int sizeY;
 	protected int resistance;
-	protected Color image;
+	private ImageIcon icon;
+	protected Image image;
 	
 	public Enemy(int x,int level) {
 		PosX = x;
-		sizeX = 25;
-		sizeY = 25;
-		setImage(Color.blue);
+		sizeX = 50;
+		sizeY = 50;
+		
 		
 		resistance = (level-1);//incrementa de acuerdo al nivel		
 		}
-	public void sumPosX(int sum) {
-		this.PosX += sum; 
+	public void sumPosX(int sum, int level) {
+		this.PosX += sum*level; 
 	}
 	public void minusRes(int value) {
 		this.resistance-=value;
@@ -58,11 +61,17 @@ public abstract class Enemy {
 		this.resistance = resistance;
 	}
 
-	public Color getImage() {
+	public Image getImage() {
 		return image;
 	}
 
-	public void setImage(Color image) {
+	public void setImage(Image image) {
 		this.image = image;
+	}
+	public ImageIcon getIcon() {
+		return icon;
+	}
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
 	}
 }

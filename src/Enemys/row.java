@@ -1,100 +1,133 @@
 package Enemys;
 
 import java.awt.Graphics;
+import java.awt.Image;
 
-import ADT.List;
-import singleEnemys.Enemy;
-import singleEnemys.TypeA;
+import javax.swing.ImageIcon;
+
+
 
 public abstract class row {
+	private String name;
+	private Image classimage;
+	private ImageIcon icon;
 	private int PosY;
 	private int length;
 	private int Level;
 	private int Xconstant;
-	private List list;
 	private int MinX;
 	private int MaxX;
 	private int direc;
 	private int cont=0;
+	private boolean collision;
+	private boolean empty;
 	
 	public row(int Width, int level) {
-		list = new List();
-		PosY = 0;
+		setCollision(false);
+		setPosY(0);
 		length = 5 + 2*(level-1);
-		Level = level;
-		Xconstant = (Width/2)-(30*length/2) ;
-		MinX = Width/4;
-		MaxX = Width*3/4;
-		direc = 1;
-		this.insert();
+		setLevel(level);
+		setXconstant((Width/2)-(30*length/2)) ;
+		setMinX(Width/4);
+		setMaxX(Width*3/4);
+		setDirec(1);
 	}
-	
+	//Metodos
 	public void insert() {
-		for (int i = 0; i < length; i++) {
-			int PosX = Xconstant + 30*i;
-			Enemy aux = new TypeA(PosX,Level) ;
-			this.list.add(aux);
-		}
 	}
 	public void draw(Graphics g) {
-		if (!this.list.empty()) {
-			for (int i = 0; i < length; i++) {
-				Enemy aux = this.list.getValue(i);
-				g.setColor(aux.getImage());
-				g.fillRect(aux.getPosX(),PosY,aux.getSizeX(),aux.getSizeY());
-			}	
-		}
 		
 	}
 	public void update(int level) {
-		int value = 30 - (level-1);
-		if (!this.list.empty()) {
-			if (cont==value){
-				for (int i = 0; i < length; i++) {
-					Enemy aux = this.list.getValue(i);
-					aux.sumPosX(this.direc);
-				}
-				if(list.getValue(0).getPosX() == MinX){//Cambiar de acuerdo a velocidad
-					this.direc = 1;
-					this.PosY +=10;
-				}
-				if(list.getValue(length-1).getPosX()+30 == MaxX) {
-					this.direc = -1;
-					this.PosY +=10;
-				}
-				cont = 0;
-			}
-			cont++;
-		}
-		
 	}
 	public void setx(){
-		for (int i = 0; i < length; i++) {
-			this.Xconstant = list.getValue(0).getPosX()+20; 
-			int PosX = Xconstant + 30*i;
-			Enemy aux = list.getValue(i);
-			aux.setPosX(PosX);
-		}
 	}
 	public void collision(int bulletx, int bullety) {
-		if(bullety == this.PosY && length != 0){
-			for (int i = 0; i < length; i++) {
-				Enemy aux = list.getValue(i);
-				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {
-					if (aux.getResistance() == 0) {
-						this.list.delete(aux);
-						length --;
-						this.setx();
-					}else {
-						aux.minusRes(1);;
-					}
-				}
-			}
-			
-		}
 	}
-	public List getList() {
-		return this.list;
+	
+	
+	//getters y setters
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int collision) {
+		this.length = collision;
+	}
+	public boolean isCollision() {
+		return collision;
+	}
+
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
+
+	public int getLevel() {
+		return Level;
+	}
+
+	public void setLevel(int level) {
+		Level = level;
+	}
+	public int getPosY() {
+		return PosY;
+	}
+	public void setPosY(int posY) {
+		PosY = posY;
+	}
+	public int getXconstant() {
+		return Xconstant;
+	}
+	public void setXconstant(int xconstant) {
+		Xconstant = xconstant;
+	}
+	public int getMinX() {
+		return MinX;
+	}
+	public void setMinX(int minX) {
+		MinX = minX;
+	}
+	public int getMaxX() {
+		return MaxX;
+	}
+	public void setMaxX(int maxX) {
+		MaxX = maxX;
+	}
+	public int getDirec() {
+		return direc;
+	}
+	public void setDirec(int direc) {
+		this.direc = direc;
+	}
+	public int getCont() {
+		return cont;
+	}
+	public void setCont(int cont) {
+		this.cont = cont;
+	}
+	public boolean isEmpty() {
+		return empty;
+	}
+	public void setEmpty(boolean empty) {
+		this.empty = empty;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Image getClassimage() {
+		return classimage;
+	}
+	public void setClassimage(Image classimage) {
+		this.classimage = classimage;
+	}
+	public ImageIcon getIcon() {
+		return icon;
+	}
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
 	}
 
 }

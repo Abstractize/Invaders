@@ -94,6 +94,18 @@ public class List {
 			return null;
 		}
 	}
-	
+	public void swap(Enemy reference,int pos) {
+		if(pos >= 0 && pos < length) {
+			if (pos == 0){
+				head.setValue(reference);
+			}else {
+				Nodo aux = head;
+				for (int i = 0; i < pos; i++) {
+					aux = aux.getNext();
+				}
+				aux.setValue(reference);
+			}
+		}
+	}
 	
 }
