@@ -4,7 +4,7 @@ package Enemys;
 public interface Factory {
 	public static row create(int width, int level) {
 		//int random = (int) ((Math.random() * 6) + 1);
-		int random = 3;
+		int random = 4;
 		row enemy= null;
 		if (random == 1) {
 			enemy = new Basic(width,level);

@@ -62,15 +62,14 @@ public class DoubleList {
 		public int position(Enemy reference){
 			int pos = 0;
 			if (search(reference)){
-				if (!(head.getValue() == reference)){
 					DoubleNode aux = head;
 					while(aux.getValue() != reference){
 						aux = aux.getNext();
 						pos++;
 					}
-				}
+				
 			}
-			return pos++;		
+			return pos;		
 		}
 		public void delete(Enemy reference){//Elimina un miembro por referencia
 			if (search(reference)){

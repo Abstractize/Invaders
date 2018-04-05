@@ -1,13 +1,13 @@
 package game;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import singleEnemys.Enemy;
+
 
 public class Bullets extends JPanel{
 	/**
@@ -33,7 +33,7 @@ public class Bullets extends JPanel{
 		sizeX=55;
 		sizeY=90;
 		shoot = false;
-		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\Invaders-master\\src\\images\\burrito.png");
+		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\src\\images\\burrito.png");
 		image = icon.getImage();
 		
 		

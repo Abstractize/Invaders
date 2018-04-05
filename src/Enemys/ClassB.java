@@ -19,7 +19,7 @@ public class ClassB extends row{
 		list = new DoubleList();
 		this.insert();
 		this.setName("Class B");
-		ImageIcon icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\Invaders-master\\src\\images\\ClassB.png");
+		ImageIcon icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\src\\images\\ClassB.png");
 		this.setIcon(icon);
 		this.setClassimage(icon.getImage());
 		this.insertBoss(level);

@@ -24,7 +24,7 @@ public class Player {
 		PosX = 683-(pixel_length/2);
 		PosY = 610;
 		Width = 1366;
-		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\Invaders-master\\src\\images\\MexicanHat.png");
+		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\src\\images\\MexicanHat.png");
 		image = icon.getImage();
 	}
 	public void paint(Graphics g) {
