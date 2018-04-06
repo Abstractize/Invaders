@@ -67,7 +67,12 @@ public class CircularList {
 		public void delete(Enemy reference){//Elimina un miembro por referencia
 			if (search(reference)){
 				if (head.getValue() == reference){
-					head = head.getNext();
+					if (tail.getValue()== reference) {
+						head = null;
+						tail = null;
+					}else {
+						head = head.getNext();
+					}	
 				}
 				else{
 					Nodo aux = head;
@@ -100,6 +105,8 @@ public class CircularList {
 			if(pos >= 0 && pos < length) {
 				if (pos == 0){
 					return head.getValue();
+				}else if(pos == (length-1)){
+					return tail.getValue();
 				}else {
 					Nodo aux = head;
 					for (int i = 0; i < pos; i++) {
@@ -115,6 +122,8 @@ public class CircularList {
 			if(pos >= 0 && pos < length) {
 				if (pos == 0){
 					head.setValue(reference);
+				}else if(pos == (length-1)){
+					tail.setValue(reference);
 				}else {
 					Nodo aux = head;
 					for (int i = 0; i < pos; i++) {
@@ -125,4 +134,26 @@ public class CircularList {
 			}
 		}
 		
+		public int BubbleSort(int pos) {//Ordenar enemigos por resistencia
+			boolean sorted = false;
+			while (!sorted){//mientras no está acomodado
+				sorted=true;
+				for(int index = 0 ; index < length-1; index++){
+					if (this.getValue(index).getResistance() > this.getValue(index+1).getResistance()) {
+						sorted = false;//no está acomodado
+						//Cambios
+						Enemy hold;
+						hold = this.getValue(index+1);
+						this.swap(this.getValue(index), index+1);
+						this.swap(hold, index);
+						if (index == pos) {//Si el jefe es la posición, se mueve 1 espacio
+							pos++;
+						}else if(index+1== pos) {//Si el jefe está después de la posición se mueve 1 espacio
+							pos--;
+						}
+					}
+				}
+			}
+			return (pos);
+		}
 }

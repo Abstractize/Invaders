@@ -1,30 +1,37 @@
 package singleEnemys;
 
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 
 public abstract class Enemy {
-	protected int PosX;
-	protected int sizeX;
-	protected int sizeY;
-	protected int resistance;
+	private int PosX;
+	private int sizeX;
+	private int sizeY;
+	private int resistance;
+	private int resistanceInit;
 	private ImageIcon icon;
-	protected Image image;
+	private Image image;
+	private int PosY;
 	
 	public Enemy(int x,int level) {
 		PosX = x;
 		sizeX = 50;
 		sizeY = 50;
-		
-		
-		resistance = (level-1);//incrementa de acuerdo al nivel		
+		this.setResistance(this.setHabitualResistance(level));
+		this.setResistanceInit(this.getResistance());
+		this.setImages();
+		this.setImage(getIcon().getImage());
 		}
 	public void sumPosX(int sum, int level) {
 		this.PosX += sum*level; 
 	}
+	public void sumPosY(int sum, int level) {
+		this.PosY += sum*level; 
+	}
 	public void minusRes(int value) {
 		this.resistance-=value;
+		this.setImages();
+		this.setImage(getIcon().getImage());
 	}
 
 //Getter y Setters
@@ -73,5 +80,22 @@ public abstract class Enemy {
 	}
 	public void setIcon(ImageIcon icon) {
 		this.icon = icon;
+	}
+	public int setHabitualResistance(int level) {
+		return resistance;
+	}
+	public void setImages(){
+	}
+	public int getResistanceInit() {
+		return resistanceInit;
+	}
+	public void setResistanceInit(int resistanceInit) {
+		this.resistanceInit = resistanceInit;
+	}
+	public int getPosY() {
+		return PosY;
+	}
+	public void setPosY(int posY) {
+		PosY = posY;
 	}
 }

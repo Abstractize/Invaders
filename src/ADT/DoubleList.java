@@ -147,8 +147,6 @@ public class DoubleList {
 				Boss.setPosX(posx);
 				this.setValue(BossPos, Other);
 				this.setValue(pos,Boss);
-				
-				
 			}
 				
 		}

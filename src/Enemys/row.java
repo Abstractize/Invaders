@@ -20,25 +20,28 @@ public abstract class row {
 	private int direc;
 	private int cont=0;
 	private boolean collision;
+	private boolean eliminating;
 	private boolean empty;
 	
 	public row(int Width, int level) {
 		setCollision(false);
-		setPosY(0);
+		setPosY(150);
 		length = 5 + 2*(level-1);
 		setLevel(level);
-		setXconstant((Width/2)-(30*length/2)) ;
+		setXconstant((Width/2)-(53*length/2)) ;
 		setMinX(Width/4);
 		setMaxX(Width*3/4);
 		setDirec(1);
 	}
 	//Metodos
-	public void insert() {
+	public void insert() {//Cambian los tipos de listas
+		
 	}
 	public void draw(Graphics g) {
 		
 	}
 	public void update(int level) {
+		
 	}
 	public void setx(){
 	}
@@ -109,6 +112,7 @@ public abstract class row {
 		return empty;
 	}
 	public void setEmpty(boolean empty) {
+		this.setLength(0);
 		this.empty = empty;
 	}
 	public String getName() {
@@ -128,6 +132,12 @@ public abstract class row {
 	}
 	public void setIcon(ImageIcon icon) {
 		this.icon = icon;
+	}
+	public boolean isEliminating() {
+		return eliminating;
+	}
+	public void setEliminating(boolean eliminating) {
+		this.eliminating = eliminating;
 	}
 
 }

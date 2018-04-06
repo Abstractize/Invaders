@@ -22,7 +22,7 @@ public abstract class SingleRow extends row {
 		public void setList(List l) {
 			this.list=l;
 	}
-
+	//Metodos que usan las listas
 	@Override
 	public void insert() {
 		for (int i = 0; i < this.getLength(); i++) {
@@ -39,33 +39,33 @@ public abstract class SingleRow extends row {
 				g.drawImage(aux.getImage() , aux.getPosX(), getPosY(), aux.getSizeX(), aux.getSizeY(), null);
 			}	
 		}
-		
 	}
 	@Override
 	public void update(int level) {
-		int value = 50 - (level-1);
-		if (!this.list.empty()) {
-			if (getCont()==value){
-				for (int i = 0; i < this.getLength(); i++) {
-					Enemy aux = this.list.getValue(i);
-					aux.sumPosX(this.getDirec(),level);
+		if (!this.isEliminating()) {
+			int value = 50;
+			if (!this.list.empty()) {
+				if (getCont()==value){
+					for (int i = 0; i < this.getLength(); i++) {
+						Enemy aux = this.list.getValue(i);
+						aux.sumPosX(this.getDirec(),level);
+					}
+					if(list.getValue(0).getPosX() < getMinX()){//Cambiar de acuerdo a velocidad
+						this.setDirec(1);
+						this.setPosY(this.getPosY() + 10);
+					}
+					if(list.getValue(this.getLength()-1).getPosX()+50 > getMaxX()) {
+						this.setDirec(-1);
+						this.setPosY(this.getPosY() + 10);
+					}
+					setCont(0);
 				}
-				if(list.getValue(0).getPosX() < getMinX()){//Cambiar de acuerdo a velocidad
-					this.setDirec(1);
-					this.setPosY(this.getPosY() + 10*level);
-				}
-				if(list.getValue(this.getLength()-1).getPosX()+53 > getMaxX()) {
-					this.setDirec(-1);
-					this.setPosY(this.getPosY() + 10*level);
-				}
-				setCont(0);
+				setCont(getCont() + 1);
 			}
-			setCont(getCont() + 1);
+			else {
+				this.setEmpty(true);
+			}
 		}
-		else {
-			this.setEmpty(true);
-		}
-		
 	}
 	@Override
 	public void setx(){
@@ -79,21 +79,22 @@ public abstract class SingleRow extends row {
 	}
 	@Override
 	public void collision(int bulletx, int bullety) {
-		if(bullety == this.getPosY() && this.getLength() != 0){
+		if(bullety == this.getPosY()+25 && this.getLength() != 0){
 			for (int i = 0; i < this.getLength(); i++) {
 				Enemy aux = list.getValue(i);
-				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {
+				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+35)) {
 					if (aux.getResistance() == 0) {
+						this.setEliminating(true);
 						this.list.delete(aux);
 						this.setLength(this.getLength()-1);
 						setCollision(true);
 						this.setx();
+						this.setEliminating(false);
 					}else {
-						aux.minusRes(1);;
+						aux.minusRes(1);
 					}
 				}
 			}
-			
 		}
 	}
 }
