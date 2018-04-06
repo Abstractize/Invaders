@@ -13,6 +13,7 @@ public class ClassE extends row{
 	private DoubleCircularList list;
 	private int BossPoss;
 	private int level;
+	private int angle;
 	private boolean BossInserting;
 	public ClassE(int Width, int level) {
 		super(Width, level);
@@ -66,7 +67,7 @@ public class ClassE extends row{
 		if (!this.list.empty()) {
 			for (int i = 0; i < this.getLength(); i++) {
 				Enemy aux = this.list.getValue(i);
-				g.drawImage(aux.getImage() , aux.getPosX(), aux.getPosY(), aux.getSizeX(), aux.getSizeY(), null);
+				g.drawImage(aux.getImage() , aux.getRadialPosX(), aux.getRadialPosY(), aux.getSizeX(), aux.getSizeY(), null);
 			}	
 		}	
 	}
@@ -77,8 +78,9 @@ public class ClassE extends row{
 			if (this.getLength()!=0) {
 				if (getCont()==value){
 					this.CircularMovement();
+					angle++;
 					
-					/*
+					
 					for (int i = 0; i < this.getLength(); i++) {
 						Enemy aux = this.list.getValue(i);
 						aux.sumPosX(this.getDirec(),level);
@@ -90,7 +92,7 @@ public class ClassE extends row{
 					if(list.getValue(this.getLength()-1).getPosX()+53 >= getMaxX()) {
 						this.setDirec(-1);
 						this.setPosY(this.getPosY() + 10*level);
-					}*/
+					}
 					setCont(0);
 				}
 				setCont(getCont() + 1);
@@ -101,12 +103,12 @@ public class ClassE extends row{
 		}		
 	}
 	public void CircularMovement() {
+		double angleRad = Math.toRadians(angle);
 		for (int i=0; i< this.getLength(); i++) {
-			int circularDicX;
-			int circularDicY;
+			int radius = this.getList().getValue(this.getLength()/2).getPosX() - this.getList().getValue(i).getPosX();
 			Enemy aux = this.list.getValue(i);
-			aux.sumPosX(circularDicX,level);
-			aux.sumPosY(circularDicY, level);
+				aux.setRadialPosX(radius, angleRad);
+				aux.setRadialPosY(radius, angleRad);
 			
 		}
 	}
@@ -114,6 +116,7 @@ public class ClassE extends row{
 		for (int i=0; i< this.getLength(); i++) {
 			Enemy aux = this.list.getValue(i);
 			aux.setPosY(this.getPosY());
+			
 		}
 	}	
 	@Override
@@ -152,16 +155,10 @@ public class ClassE extends row{
 			
 		}
 	}
-	public int getCircularDicX() {
-		return circularDicX;
+	public int getAngle() {
+		return angle;
 	}
-	public void setCircularDic(int circularDic) {
-		this.circularDicX = circularDic;
-	}
-	public int getCircularDicY() {
-		return circularDicY;
-	}
-	public void setCircularDicY(int circularDic) {
-		this.circularDicY = circularDic;
+	public void setAngle(int angle) {
+		this.angle = angle;
 	}
 }

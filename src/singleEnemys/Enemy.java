@@ -4,14 +4,17 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public abstract class Enemy {
+	
 	private int PosX;
+	private int PosY;
 	private int sizeX;
 	private int sizeY;
 	private int resistance;
 	private int resistanceInit;
 	private ImageIcon icon;
 	private Image image;
-	private int PosY;
+	private int RadialPosX;
+	private int RadialPosY;
 	
 	public Enemy(int x,int level) {
 		PosX = x;
@@ -24,9 +27,6 @@ public abstract class Enemy {
 		}
 	public void sumPosX(int sum, int level) {
 		this.PosX += sum*level; 
-	}
-	public void sumPosY(int sum, int level) {
-		this.PosY += sum*level; 
 	}
 	public void minusRes(int value) {
 		this.resistance-=value;
@@ -91,6 +91,20 @@ public abstract class Enemy {
 	}
 	public void setResistanceInit(int resistanceInit) {
 		this.resistanceInit = resistanceInit;
+	}
+	public int getRadialPosX() {
+		return RadialPosX;
+	}
+	public void setRadialPosX(int radius, double angle) {
+		RadialPosX = (int) (radius* Math.cos(angle)) + PosX;
+		System.out.println(RadialPosX);
+	}
+	public int getRadialPosY() {
+		return RadialPosY;
+	}
+	public void setRadialPosY(int radius, double angle) {
+		RadialPosY = (int) (radius* Math.sin(angle)) + PosY;
+		System.out.println(RadialPosY);
 	}
 	public int getPosY() {
 		return PosY;
