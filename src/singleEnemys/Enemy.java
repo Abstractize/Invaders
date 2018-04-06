@@ -15,6 +15,7 @@ public abstract class Enemy {
 	private Image image;
 	private int RadialPosX;
 	private int RadialPosY;
+	private int radius;
 	
 	public Enemy(int x,int level) {
 		PosX = x;
@@ -95,14 +96,14 @@ public abstract class Enemy {
 	public int getRadialPosX() {
 		return RadialPosX;
 	}
-	public void setRadialPosX(int radius, double angle) {
-		RadialPosX = (int) (radius* Math.cos(angle)) + PosX;
+	public void setRadialPosX(int level, double angle) {
+		RadialPosX = (int)(radius * Math.cos(angle)) + PosX;
 		System.out.println(RadialPosX);
 	}
 	public int getRadialPosY() {
 		return RadialPosY;
 	}
-	public void setRadialPosY(int radius, double angle) {
+	public void setRadialPosY(int level, double angle) {
 		RadialPosY = (int) (radius* Math.sin(angle)) + PosY;
 		System.out.println(RadialPosY);
 	}
@@ -111,5 +112,11 @@ public abstract class Enemy {
 	}
 	public void setPosY(int posY) {
 		PosY = posY;
+	}
+	public int getRadius() {
+		return radius;
+	}
+	public void setRadius(int radius) {
+		this.radius = radius;
 	}
 }

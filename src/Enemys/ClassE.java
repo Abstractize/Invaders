@@ -61,6 +61,14 @@ public class ClassE extends row{
 			Enemy aux = new TypeA(PosX,getLevel()) ;
 			this.list.add(aux);
 		}
+		this.setRadius();
+		this.setx();
+	}
+	public void setRadius() {
+		for (int i = 0; i < this.getLength(); i++) {
+			Enemy aux = list.getValue(i);
+			aux.setRadius(this.getList().getValue(this.getLength()/2).getPosX() - this.getList().getValue(i).getPosX());
+		}
 	}
 	@Override
 	public void draw(Graphics g) {
@@ -105,10 +113,9 @@ public class ClassE extends row{
 	public void CircularMovement() {
 		double angleRad = Math.toRadians(angle);
 		for (int i=0; i< this.getLength(); i++) {
-			int radius = this.getList().getValue(this.getLength()/2).getPosX() - this.getList().getValue(i).getPosX();
 			Enemy aux = this.list.getValue(i);
-				aux.setRadialPosX(radius, angleRad);
-				aux.setRadialPosY(radius, angleRad);
+				aux.setRadialPosX(level, angleRad);
+				aux.setRadialPosY(level, angleRad);
 			
 		}
 	}
@@ -123,7 +130,7 @@ public class ClassE extends row{
 	public void setx(){
 		for (int i = 0; i < this.getLength(); i++) {
 			this.setXconstant(list.getValue(0).getPosX()); 
-			int PosX = getXconstant() + 53*i;
+			int PosX = getXconstant();
 			Enemy aux = list.getValue(i);
 			aux.setPosX(PosX);
 		}
