@@ -3,6 +3,8 @@ package Enemys;
 import javax.swing.ImageIcon;
 
 import ADT.List;
+import Display.Display;
+import game.Bullets;
 import singleEnemys.*;
 
 public class ClassA extends SingleRow {
@@ -26,18 +28,22 @@ public class ClassA extends SingleRow {
 		 this.setList(lista); 
 	}
 	@Override
-	public void collision(int bulletx, int bullety) {
+	public void collision(Bullets bullet, Display display) {
+		int bullety = bullet.getPosY();
+		int bulletx = bullet.getPosX();
 		if(bullety == this.getPosY() && this.getLength() != 0){
 			for (int i = 0; i < this.getLength(); i++) {
 				Enemy aux = this.getList().getValue(i);
 				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {
+					bullet.setShoot(false);
 					if (aux.getResistance() == 0) {
+						display.setScore(display.getScore()+100);
 						this.setEliminating(true);
 						this.getList().delete(aux);
 						this.setLength(this.getLength()-1);
-						setCollision(true);
 						this.setx();
 						if (i == BossPoss) {
+							display.setScore(display.getScore()+100);
 							this.setEmpty(true);
 							this.getList().erase();
 						}else if(i < BossPoss) {

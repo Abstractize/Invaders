@@ -3,6 +3,8 @@ package Enemys;
 import java.awt.Graphics;
 
 import ADT.CircularList;
+import Display.Display;
+import game.Bullets;
 import singleEnemys.Enemy;
 import singleEnemys.TypeA;
 import singleEnemys.TypeB;
@@ -60,7 +62,7 @@ public class CircularRow extends row{
 	}
 	@Override
 	public void update(int level) {//Actualiza el movimiento
-		if (!this.isEliminating() && !this.isCollision()) {
+		if (!this.isEliminating()) {
 			int value = 50;
 			if (this.getLength()!=0) {
 				if (getCont()==value){
@@ -92,23 +94,27 @@ public class CircularRow extends row{
 			int PosX = getXconstant() + 53*i;
 			Enemy aux = list.getValue(i);
 			aux.setPosX(PosX);
-			setCollision(false);
 		}
 	}
-	public void collision(int bulletx, int bullety) {
+	@Override
+	public void collision(Bullets bullet,Display display) {
+		int bullety = bullet.getPosY();
+		int bulletx = bullet.getPosX();
 		if (this.getLength()!= 0){
 			if(bullety == this.getPosY()+25){
 				for (int i = 0; i < this.getLength(); i++) {
 					Enemy aux = this.getList().getValue(i);
 					if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {
+						bullet.setShoot(false);
 						if (aux.getResistance() == 0) {
+							display.setScore(display.getScore()+100);
 							this.setEliminating(true);
 							this.getList().delete(aux);
 							this.setLength(this.getLength()-1);
-							setCollision(true);
 							this.setx();
 							if (this.getLength()!=0) {
 								if (i == BossPoss) {
+									display.setScore(display.getScore()+100);
 									this.insertBoss(level);
 								}else if(i < BossPoss) {
 									BossPoss--;

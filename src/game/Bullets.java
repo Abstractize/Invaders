@@ -44,16 +44,13 @@ public class Bullets extends JPanel{
 			g.drawImage(image, PosX, PosY, sizeX, sizeY, null);
 		}
 	
-}
-	public void update(int x,int y,boolean bool) {
+	}
+	public void update(int x,int y) {
 		if (shoot){
 			PosY-=1;
 		}
 		if (PosY < 0) {
 			shoot= false;
-		}
-		if (bool) {
-			shoot = false;
 		}
 		if (!shoot) {
 			PosY=y;

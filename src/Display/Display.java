@@ -1,6 +1,7 @@
 package Display;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -22,14 +23,14 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	//variables de juego
-	//private int score = 0;
+	private int score;
 	private int Level;
 	private int Width;
 	private int Heigth;
 	private int Cont;
 	private boolean play;
+	private boolean gameover;
 	
-	//private int totalBricks = 21;
 	//Timer
 	private Timer timer;
 	private int delay = 0;
@@ -41,13 +42,16 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	private row next;
 	//imagenes
 	private ImageIcon icon;
+	private ImageIcon panelIcon;
 	private Image bg;
+	private Image panel;
 	
 	public Display(int width, int heigth) {
 		play=false;
 		Width = width;
 		Heigth = heigth;
 		Level = 1;
+		setScore(0);
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
@@ -58,19 +62,41 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		player = new Player();
 		bullet = new Bullets(player.getPosX(),player.getPosY());
 		//Enemigos
-		enemies = Factory.create(Width,Level);
-		next = Factory.create(Width, Level);
+		enemies = ChooseEnemies();
+		next = ChooseEnemies();
 		//imagenes
 		icon = BackGroundFactory.create(Width, Heigth);
+		panelIcon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\src\\images\\BossWall2.jpg");
 		bg = icon.getImage();
+		panel = panelIcon.getImage(); 
+	}
+	public row ChooseEnemies() {
+		int random = (int) (Math.random()*2);
+		int type = (int) (Math.random()*3);
+		row row = null;
+		Factory factory;
+		if (random == 0) {
+			factory = new DefaultFactory();
+		}else {
+			factory = new ModifiedFactory();
+		}
+		if (type == 0) {
+			row = factory.createSingleRow(Width, Level);
+		}
+		else if (type == 1) {
+			row = factory.createOther(Width, Level);
+		}
+		else if (type == 2) {
+			row = factory.createCircularRow(Width, Level);
+		}
+		return row;
 	}
 	public void paint(Graphics g) {
 		//background
+		g.setColor(Color.black);
+		g.drawImage(panel , 0, 0, Width, Heigth, this);
 		g.drawImage(bg , Width*1/4, 0, Width/2, Heigth, this);
-		g.setColor(Color.gray);//color
-		g.fillRect(0, 0, Width/4, Heigth);//size
-		g.setColor(Color.gray);//color
-		g.fillRect(Width*3/4, 0, Width*1/4, Heigth);//size
+		
 		
 		//Player
 		player.paint(g);
@@ -78,9 +104,21 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		//Enemies
 		enemies.draw(g);
 		//Font Displays
-		g.drawImage(enemies.getClassimage(), 0, 0, null);
-		g.drawImage(next.getClassimage(), 0, 100, null);
-		
+		g.setColor(Color.white);
+		g.setFont(new Font("JI Chimichanga", Font.PLAIN, 80));
+		g.drawString("Enemies:", 10, 100);
+		g.drawString(enemies.getName(), 30, 160);
+		g.drawString("Next:", 10, 240);
+		g.drawString(next.getName(), 30, 300);
+		g.drawString("Score:", (Width*3/4)+10, 100);
+		g.drawString(String.valueOf(score), (Width*3/4)+30, 160);
+		g.drawString("Level:", (Width*3/4)+10, 240);
+		g.drawString(String.valueOf(Level), (Width*3/4)+30, 300);
+		//Game Over
+		if (gameover) {
+			g.drawString("GAME OVER", (Width/4)+180, Heigth/2);
+			
+		}
 		
 		g.dispose();
 		}
@@ -90,21 +128,26 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 				Level++;
 				bg = icon.getImage();
 				Cont = 3+((Level-1)*2);
-		}else {
-			Cont--;
-			enemies=next;
-			next=Factory.create(Width,Level);
-			icon = BackGroundFactory.create(Width, Heigth);
+			}else {
+				Cont--;
+				enemies=next;
+				next=ChooseEnemies();
+				icon = BackGroundFactory.create(Width, Heigth);
 			}
+		}
+		if (enemies.getPosY() > player.getPosY()) {
+			gameover=true;
+			play = false;
+			
 		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (play){
 			timer.start();
-			bullet.update(player.getCentX(),player.getPosY(),enemies.isCollision());
+			bullet.update(player.getCentX(),player.getPosY());
 			enemies.update(Level);
-			enemies.collision(bullet.getPosX(), bullet.getPosY());
+			enemies.collision(bullet,this);
 			this.update();
 			repaint();
 			// TODO Auto-generated method stub
@@ -144,6 +187,12 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		
 		// TODO Auto-generated method stub
 		
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 	

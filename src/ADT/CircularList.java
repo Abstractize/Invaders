@@ -135,6 +135,7 @@ public class CircularList {
 		}
 		
 		public int BubbleSort(int pos) {//Ordenar enemigos por resistencia
+			System.out.println("Boss en Posición:"+ pos);
 			boolean sorted = false;
 			while (!sorted){//mientras no está acomodado
 				sorted=true;
@@ -154,6 +155,8 @@ public class CircularList {
 					}
 				}
 			}
+			System.out.println("Boss ahora en Posición:"+ pos);
 			return (pos);
+			
 		}
 }

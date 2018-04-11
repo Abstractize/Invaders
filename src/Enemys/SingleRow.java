@@ -3,6 +3,8 @@ package Enemys;
 import java.awt.Graphics;
 
 import ADT.List;
+import Display.Display;
+import game.Bullets;
 import singleEnemys.Enemy;
 import singleEnemys.TypeA;
 
@@ -75,19 +77,21 @@ public abstract class SingleRow extends row {
 			Enemy aux = list.getValue(i);
 			aux.setPosX(PosX);
 		}
-		setCollision(false);
 	}
 	@Override
-	public void collision(int bulletx, int bullety) {
+	public void collision(Bullets bullet, Display display) {
+		int bullety = bullet.getPosY();
+		int bulletx = bullet.getPosX();
 		if(bullety == this.getPosY()+25 && this.getLength() != 0){
 			for (int i = 0; i < this.getLength(); i++) {
 				Enemy aux = list.getValue(i);
 				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+35)) {
+					bullet.setShoot(false);
 					if (aux.getResistance() == 0) {
+						display.setScore(display.getScore()+100);
 						this.setEliminating(true);
 						this.list.delete(aux);
 						this.setLength(this.getLength()-1);
-						setCollision(true);
 						this.setx();
 						this.setEliminating(false);
 					}else {

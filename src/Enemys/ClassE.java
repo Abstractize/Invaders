@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 import ADT.DoubleCircularList;
+import Display.Display;
+import game.Bullets;
 import singleEnemys.Enemy;
 import singleEnemys.TypeA;
 import singleEnemys.TypeB;
@@ -46,12 +48,12 @@ public class ClassE extends row{
 	public void insertBoss(int level) {
 		BossInserting = true;
 		DoubleCircularList lista = this.getList();
-		int random = (this.getLength()/2);
-		int PosX = lista.getValue(random).getPosX();
+		int PosX = lista.getValue(this.getLength()/2).getPosX();
 		TypeB Boss = new TypeB(PosX,level);
-		BossPoss=random;
-		lista.swap(Boss, random);
+		BossPoss=(this.getLength()/2);
+		lista.swap(Boss, (this.getLength()/2));
 		this.setList(lista);
+		this.setY();
 		BossInserting = false;
 	}
 	@Override
@@ -93,13 +95,15 @@ public class ClassE extends row{
 						Enemy aux = this.list.getValue(i);
 						aux.sumPosX(this.getDirec(),level);
 					}
-					if(list.getValue(0).getPosX() <= getMinX()){//Cambiar de acuerdo a velocidad
+					if(list.getValue(0).getRadialPosX() <= getMinX() || list.getValue(list.getLength()-1).getRadialPosX() <= getMinX()){//Cambiar de acuerdo a velocidad
 						this.setDirec(1);
-						this.setPosY(this.getPosY() + 10*level);
+						this.setPosY(this.getPosY() + level);
+						this.setY();
 					}
-					if(list.getValue(this.getLength()-1).getPosX()+53 >= getMaxX()) {
+					if(list.getValue(0).getRadialPosX()+53 >= getMaxX()|| list.getValue(list.getLength()-1).getRadialPosX()+53 >= getMaxX()) {
 						this.setDirec(-1);
-						this.setPosY(this.getPosY() + 10*level);
+						this.setPosY(this.getPosY() + level);
+						this.setY();
 					}
 					setCont(0);
 				}
@@ -134,21 +138,23 @@ public class ClassE extends row{
 			Enemy aux = list.getValue(i);
 			aux.setPosX(PosX);
 		}
-		setCollision(false);
 	}
 	@Override
-	public void collision(int bulletx, int bullety) {
-		if(bullety == this.getPosY() && this.getLength() != 0){//Evaluamos si la bala está en el eje 7 de la hilera y si la lista no es vacia
+	public void collision(Bullets bullet, Display display) {
+		int bullety = bullet.getPosY();
+		int bulletx = bullet.getPosX()+25;
 			for (int i = 0; i < this.getLength(); i++) {//Creamos una variable que recorra la lista
 				Enemy aux = list.getValue(i);//Obtenemos cada enemigo dentro de la lista
-				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {//Evaluamos que la bala esté en su margen en X
+				if(aux.Collision(bulletx, bullety)) {//Evaluamos que la bala esté en su margen en X y en Y
+					bullet.setShoot(false);
 					if (aux.getResistance() == 0) {//Si su resistencia es 0, entonces:
+						display.setScore(display.getScore()+100);
 						this.list.delete(aux);
 						this.setLength(this.getLength()-1);
-						setCollision(true);
 						this.setx();
 						if (i == BossPoss) {
-							if (this.getLength()!=0) {								
+							if (this.getLength()!=0) {
+								display.setScore(display.getScore()+100);
 								this.insertBoss(level);
 							}	
 						}else if(i < BossPoss){
@@ -158,9 +164,8 @@ public class ClassE extends row{
 						aux.minusRes(1);
 					}
 				}
-			}
 			
-		}
+			}
 	}
 	public int getAngle() {
 		return angle;

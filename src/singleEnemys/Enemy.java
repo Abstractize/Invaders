@@ -34,7 +34,15 @@ public abstract class Enemy {
 		this.setImages();
 		this.setImage(getIcon().getImage());
 	}
-
+	public boolean Collision(int bulletx, int bullety) {
+		boolean flag = false;
+		if (this.RadialPosY == bullety) {
+			if (this.RadialPosX <= bulletx && bulletx <= this.RadialPosX + this.getSizeX()) {
+				flag = true;
+			}
+		}
+		return flag;
+	}
 //Getter y Setters
 	public int getPosX() {
 		return PosX;
@@ -98,14 +106,18 @@ public abstract class Enemy {
 	}
 	public void setRadialPosX(int level, double angle) {
 		RadialPosX = (int)(radius * Math.cos(angle)) + PosX;
-		System.out.println(RadialPosX);
+	}
+	public void setRadialPosX(int PosX) {
+		RadialPosX = PosX;
 	}
 	public int getRadialPosY() {
 		return RadialPosY;
 	}
 	public void setRadialPosY(int level, double angle) {
 		RadialPosY = (int) (radius* Math.sin(angle)) + PosY;
-		System.out.println(RadialPosY);
+	}
+	public void setRadialPosY(int PosY) {
+		RadialPosX = PosY;
 	}
 	public int getPosY() {
 		return PosY;

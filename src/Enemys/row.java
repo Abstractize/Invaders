@@ -5,6 +5,9 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import Display.Display;
+import game.Bullets;
+
 
 
 public abstract class row {
@@ -19,12 +22,10 @@ public abstract class row {
 	private int MaxX;
 	private int direc;
 	private int cont=0;
-	private boolean collision;
 	private boolean eliminating;
 	private boolean empty;
 	
 	public row(int Width, int level) {
-		setCollision(false);
 		setPosY(150);
 		length = 5 + 2*(level-1);
 		setLevel(level);
@@ -45,7 +46,7 @@ public abstract class row {
 	}
 	public void setx(){
 	}
-	public void collision(int bulletx, int bullety) {
+	public void collision(Bullets bullet,Display display) {
 	}
 	
 	
@@ -57,14 +58,6 @@ public abstract class row {
 	public void setLength(int collision) {
 		this.length = collision;
 	}
-	public boolean isCollision() {
-		return collision;
-	}
-
-	public void setCollision(boolean collision) {
-		this.collision = collision;
-	}
-
 	public int getLevel() {
 		return Level;
 	}
@@ -139,5 +132,4 @@ public abstract class row {
 	public void setEliminating(boolean eliminating) {
 		this.eliminating = eliminating;
 	}
-
 }
