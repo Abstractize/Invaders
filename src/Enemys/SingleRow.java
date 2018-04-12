@@ -45,9 +45,7 @@ public abstract class SingleRow extends row {
 	@Override
 	public void update(int level) {
 		if (!this.isEliminating()) {
-			int value = 50;
 			if (!this.list.empty()) {
-				if (getCont()==value){
 					for (int i = 0; i < this.getLength(); i++) {
 						Enemy aux = this.list.getValue(i);
 						aux.sumPosX(this.getDirec(),level);
@@ -60,9 +58,6 @@ public abstract class SingleRow extends row {
 						this.setDirec(-1);
 						this.setPosY(this.getPosY() + 10);
 					}
-					setCont(0);
-				}
-				setCont(getCont() + 1);
 			}
 			else {
 				this.setEmpty(true);

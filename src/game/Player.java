@@ -14,9 +14,11 @@ public class Player {
 	private int pixel_length;
 	private int pixel_heigth;		
 	private int Width;
+	private boolean left, right,shoot;
 	private ImageIcon icon;
 	private Image image;
-	
+	private queue charger;
+	private int cont;
 	
 	public Player(){
 		pixel_length = 100;
@@ -26,9 +28,33 @@ public class Player {
 		Width = 1366;
 		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\src\\images\\MexicanHat.png");
 		image = icon.getImage();
+		charger = new queue();
+		cont = 0;
+	}
+	public void update() {
+		if (!left && right) {
+			moveRigth();
+		}
+		if (!right && left) {
+			moveLeft();
+		}
+		for (int i=0;i<charger.getLength();i++) {
+			charger.getValue(i).update(this.getCentX(), PosY,this);
+		}
+		if (shoot) {
+			if (cont == 200) {
+				Bullets aux = new Bullets(this.getCentX(), this.PosY);
+				charger.enqueue(aux);
+				cont = 	0;
+			}cont++;
+			
+		}
 	}
 	public void paint(Graphics g) {
 		g.drawImage(image, PosX, PosY, pixel_length, pixel_heigth, null);
+		for (int i=0;i<charger.getLength();i++) {
+			charger.getValue(i).paint(g);
+		}
 
 	}
 	public void moveRigth() {
@@ -36,7 +62,7 @@ public class Player {
 			if(PosX >= validate) {
 				PosX = validate;
 			}else {
-				PosX+= 20;
+				PosX+= 1;
 			}
 	}
 	public void moveLeft() {
@@ -44,7 +70,7 @@ public class Player {
 			if(PosX < validate) {
 				PosX = validate ;
 			}else {
-				PosX-= 20;
+				PosX-= 1;
 		}
 	}
 	public int getCentX() {
@@ -90,6 +116,30 @@ public class Player {
 
 	public void setPixel_heigth(int pixel_heigth) {
 		this.pixel_heigth = pixel_heigth;
+	}
+	public boolean isLeft() {
+		return left;
+	}
+	public void setLeft(boolean left) {
+		this.left = left;
+	}
+	public boolean isShoot() {
+		return shoot;
+	}
+	public void setShoot(boolean shoot) {
+		this.shoot = shoot;
+	}
+	public boolean isRight() {
+		return right;
+	}
+	public void setRight(boolean right) {
+		this.right = right;
+	}
+	public queue getBullets() {
+		return charger;
+	}
+	public void setBullets(queue bullets) {
+		this.charger = bullets;
 	}
 
 }

@@ -26,13 +26,14 @@ public class Bullets extends JPanel{
 	private Image image;
 	
 	public Bullets(int x,int y) {
-		PosX=x;
-		PosY=y;
+		PosXinit=x;
+		PosYinit=y;
 		PosX = PosXinit;
 		PosY = PosYinit;
+		System.out.println(PosX +" ,"+PosY);
 		sizeX=55;
 		sizeY=90;
-		shoot = false;
+		shoot = true;
 		icon = new ImageIcon("D:\\Users\\Gabo\\Escritorio\\Proyectos\\Invaders\\src\\images\\burrito.png");
 		image = icon.getImage();
 		
@@ -45,7 +46,7 @@ public class Bullets extends JPanel{
 		}
 	
 	}
-	public void update(int x,int y) {
+	public void update(int x,int y ,Player player) {
 		if (shoot){
 			PosY-=1;
 		}
@@ -55,6 +56,7 @@ public class Bullets extends JPanel{
 		if (!shoot) {
 			PosY=y;
 			PosX=x;
+			player.getBullets().dequeue();
 		}
 	}
 

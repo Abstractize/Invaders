@@ -13,6 +13,7 @@ import javax.swing.Timer;
 
 import Enemys.*;
 import game.*;
+import sockets.connector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -36,7 +37,6 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	private int delay = 0;
 	//Jugador
 	private Player player;
-	private Bullets bullet;
 	//Enemigos
 	private row enemies;
 	private row next;
@@ -45,8 +45,13 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	private ImageIcon panelIcon;
 	private Image bg;
 	private Image panel;
+	private int updater;
+	//Servidor
+	connector c;
 	
 	public Display(int width, int heigth) {
+		c = new connector();
+		c.init(this);
 		play=false;
 		Width = width;
 		Heigth = heigth;
@@ -60,7 +65,6 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		Cont=3;
 		//Jugador
 		player = new Player();
-		bullet = new Bullets(player.getPosX(),player.getPosY());
 		//Enemigos
 		enemies = ChooseEnemies();
 		next = ChooseEnemies();
@@ -100,7 +104,6 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		
 		//Player
 		player.paint(g);
-		bullet.paint(g);
 		//Enemies
 		enemies.draw(g);
 		//Font Displays
@@ -145,9 +148,19 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (play){
 			timer.start();
-			bullet.update(player.getCentX(),player.getPosY());
+			player.update();
+			if (!player.getBullets().empty()) {
+				for (int i=0; i< player.getBullets().getLength(); i++) {
+					 Bullets aux = player.getBullets().getValue(i);
+					 enemies.collision(aux,this);
+				}
+			}
+			
 			enemies.update(Level);
-			enemies.collision(bullet,this);
+
+			
+			
+			
 			this.update();
 			repaint();
 			// TODO Auto-generated method stub
@@ -158,17 +171,18 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		int key = e.getKeyCode();
+		if (key == KeyEvent.VK_SPACE) {
 			this.setPlay(true);
-			bullet.setShoot(true);
+			player.setShoot(true);
 		}
-		if (e.getKeyCode() == KeyEvent.VK_D) {
+		if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
 			this.setPlay(true);
-			player.moveRigth();
+			player.setRight(true);
 		}
-		if (e.getKeyCode() == KeyEvent.VK_A) {
+		if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
 			this.setPlay(true);
-			player.moveLeft();
+			player.setLeft(true);
 		}
 		// TODO Auto-generated method stub
 	}
@@ -179,20 +193,47 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+			if (key == KeyEvent.VK_SPACE) {
+				player.setShoot(false);
+			}
+			if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
+				this.setPlay(true);
+				player.setRight(false);
+			}
+			if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
+				this.setPlay(true);
+				player.setLeft(false);
+			}
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
+	//Getters y Setters
 	public int getScore() {
 		return score;
 	}
+	public int getLevel() {
+		return Level;
+	}
 	public void setScore(int score) {
 		this.score = score;
+	}
+	public int getUpdater() {
+		return updater;
+	}
+	public void setUpdater(int updater) {
+		this.updater = updater;
+	}
+	public row getEnemies() {
+		return enemies;
+	}
+	public row getNext() {
+		return next;
 	}
 	
 	

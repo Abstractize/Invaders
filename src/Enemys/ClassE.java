@@ -84,9 +84,7 @@ public class ClassE extends row{
 	@Override
 	public void update(int level) {//Actualiza el movimiento
 		if (!BossInserting && !this.isEliminating()) {
-			int value = 50;
 			if (this.getLength()!=0) {
-				if (getCont()==value){
 					this.CircularMovement();
 					angle++;
 					
@@ -105,9 +103,6 @@ public class ClassE extends row{
 						this.setPosY(this.getPosY() + level);
 						this.setY();
 					}
-					setCont(0);
-				}
-				setCont(getCont() + 1);
 			}
 			else {
 				this.setEmpty(true);

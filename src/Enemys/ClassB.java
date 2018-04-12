@@ -57,10 +57,8 @@ public class ClassB extends row{
 	@Override
 	public void update(int level) {
 		if (!swapping && !this.isEliminating()) {
-			int value = 50;
 			if (!this.list.empty()) {
 				this.swap();
-				if (getCont()==value){
 					for (int i = 0; i < this.getLength(); i++) {
 						Enemy aux = this.list.getValue(i);
 						aux.sumPosX(this.getDirec(),level);
@@ -73,9 +71,6 @@ public class ClassB extends row{
 						this.setDirec(-1);
 						this.setPosY(this.getPosY() + 10*level);
 					}
-					setCont(0);
-				}
-				setCont(getCont() + 1);
 			}
 			else {
 				this.setEmpty(true);
