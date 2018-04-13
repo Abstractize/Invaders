@@ -41,14 +41,17 @@ public class Player {
 		for (int i=0;i<charger.getLength();i++) {
 			charger.getValue(i).update(this.getCentX(), PosY,this);
 		}
+		if (cont<0){
+			cont = 0;
+		}
 		if (shoot) {
-			if (cont == 200) {
+			if (cont == 0) {
 				Bullets aux = new Bullets(this.getCentX(), this.PosY);
 				charger.enqueue(aux);
-				cont = 	0;
-			}cont++;
+				cont = 	50;
+			}
 			
-		}
+		}cont--;
 	}
 	public void paint(Graphics g) {
 		g.drawImage(image, PosX, PosY, pixel_length, pixel_heigth, null);

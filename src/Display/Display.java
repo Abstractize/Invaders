@@ -30,6 +30,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	private int Heigth;
 	private int Cont;
 	private boolean play;
+	private boolean phone;
 	private boolean gameover;
 	
 	//Timer
@@ -50,9 +51,11 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	connector c;
 	
 	public Display(int width, int heigth) {
-		c = new connector();
-		c.init(this);
+		c = connector.getConnector(this);//Instanciamos el servidor
+		c.start();//Iniciamos el Thread en el que está
+		//Definimos Variables de juego
 		play=false;
+		phone=false;
 		Width = width;
 		Heigth = heigth;
 		Level = 1;
@@ -60,8 +63,10 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
+		//Inicialización de un timer para eventos y juego;
 		timer = new Timer(delay,this);
 		timer.start();
+		//Contador de enemigos en el nivel
 		Cont=3;
 		//Jugador
 		player = new Player();
@@ -74,7 +79,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		bg = icon.getImage();
 		panel = panelIcon.getImage(); 
 	}
-	public row ChooseEnemies() {
+	public row ChooseEnemies() {//Funcion que llama al Abstract Factory para crear enemigos
 		int random = (int) (Math.random()*2);
 		int type = (int) (Math.random()*3);
 		row row = null;
@@ -95,7 +100,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		}
 		return row;
 	}
-	public void paint(Graphics g) {
+	public void paint(Graphics g) {//Funcion para dibujar en pantalla
 		//background
 		g.setColor(Color.black);
 		g.drawImage(panel , 0, 0, Width, Heigth, this);
@@ -125,6 +130,30 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		
 		g.dispose();
 		}
+	public void verifyMess(String message){
+		if (phone){
+			System.out.println("verify " + message);
+			int msg = Integer.valueOf(message);
+			if (msg == 1) {
+				System.out.println("shoot");
+				player.setShoot(true);
+			}
+			if (msg == 2) {
+				player.setRight(true);
+			}
+			if (msg == 3) {
+				player.setLeft(true);
+			}
+			if (msg == 0){
+				player.setLeft(false);
+				player.setRight(false);
+				player.setShoot(false);
+			}
+		}
+		
+		
+	}
+	@SuppressWarnings("deprecation")
 	public void update(){
 		if (enemies.isEmpty()){
 			if (Cont == 0) {
@@ -141,12 +170,16 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		if (enemies.getPosY() > player.getPosY()) {
 			gameover=true;
 			play = false;
+			c.stop();
+			c.finish();
 			
 		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		if (play){
+			verifyMess(c.getMessage());
 			timer.start();
 			player.update();
 			if (!player.getBullets().empty()) {
@@ -155,7 +188,6 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 					 enemies.collision(aux,this);
 				}
 			}
-			
 			enemies.update(Level);
 
 			
@@ -172,16 +204,23 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		if (key == KeyEvent.VK_SPACE) {
+		if (key == KeyEvent.VK_ENTER){
 			this.setPlay(true);
+			this.setPhone(true);
+		}
+		if (key == KeyEvent.VK_SHIFT){
+			this.setPlay(true);
+		}
+		if (key == KeyEvent.VK_SPACE) {
+			
 			player.setShoot(true);
 		}
 		if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-			this.setPlay(true);
+			
 			player.setRight(true);
 		}
 		if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-			this.setPlay(true);
+			
 			player.setLeft(true);
 		}
 		// TODO Auto-generated method stub
@@ -196,13 +235,11 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		int key = e.getKeyCode();
 			if (key == KeyEvent.VK_SPACE) {
 				player.setShoot(false);
-			}
+			} 	
 			if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-				this.setPlay(true);
 				player.setRight(false);
 			}
 			if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-				this.setPlay(true);
 				player.setLeft(false);
 			}
 		// TODO Auto-generated method stub
@@ -234,6 +271,12 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 	}
 	public row getNext() {
 		return next;
+	}
+	public boolean isPhone() {
+		return phone;
+	}
+	public void setPhone(boolean phone) {
+		this.phone = phone;
 	}
 	
 	

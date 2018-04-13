@@ -6,36 +6,98 @@ import Display.Display;
 
 import java.io.*;
 
-public class connector {
-	ServerSocket server;
-	Socket socket;
-	int port = 9000;
-	DataOutputStream output;
-	BufferedReader input;
-	String message;
-	public void init(Display display) {
+public class connector extends Thread{
+	private ServerSocket server;
+	private Socket socket;
+	private int port = 9000;
+	private PrintStream output;
+	private BufferedReader input;
+	private String message="0";
+	private Display dis;
+	private static connector Server;
+	//Singleton para definir solo un servidor a la vez
+	public static connector getConnector(Display display){
+		if (Server == null){
+			Server = new connector(display);
+		}
+		return Server;
+	}
+	private connector(Display display){
+		dis=display;
+	}
+	@Override
+	public void run(){
+		super.run();
 		try {
+			this.init();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+			
+		
+	}
+	public void init() throws IOException {
+		try {
+			System.out.println("Estableciendo Conexión");
 			server = new ServerSocket(port);
 			socket = new Socket();
-			socket = server.accept();
 			
-			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			//Información por recibir
-			message = input.readLine();//recibe el nombre de un booleano
-			System.out.println(message);
-			
-			output = new DataOutputStream(socket.getOutputStream());
-			//Información por mandar
-			output.writeByte(display.getScore());//Puntaje
-			output.writeByte(display.getLevel());//Nivel
-			output.writeUTF(display.getEnemies().getName());//Hilera
-			output.writeUTF(display.getNext().getName());//Hilera por salir
+			System.out.println("Conexión establecida");
 			
 			
+			while (true){
+				System.out.println("Esperando cliente...");
+				socket = server.accept();
+				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				output = new PrintStream(socket.getOutputStream());
+				System.out.println("Aceptando cliente...");
+				System.out.println("recibiendo mensaje");
+				//Información por recibir
+				
+				
+				message = input.readLine();//recibe el nombre de un booleano
+				System.out.println(message);
+				
+				System.out.println("mandando mensaje");
+				//Información por mandar
+				
+				String msg = (String.valueOf(dis.getScore())+","+String.valueOf(dis.getLevel())+","+dis.getEnemies().getName()+","+dis.getNext().getName());
+				output.println(msg);
+			}
+		}catch(Exception e) {}
+		finally{
+			socket.close();	
+		};
+	}
+	
+	public Object infoTrade(){
+		try{
 			
-			
-			
-			socket.close();
-		}catch(Exception e) {};
+
+		}catch(Exception e){};
+		return infoTrade();
+		
+		
+		
+	}
+	public void finish(){
+		try{
+			socket.close();	
+		}catch(Exception e){};
+		
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public Display getDis() {
+		return dis;
+	}
+	public void setDis(Display dis) {
+		this.dis = dis;
 	}
 }
