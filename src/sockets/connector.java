@@ -68,25 +68,10 @@ public class connector extends Thread{
 			}
 		}catch(Exception e) {}
 		finally{
+			input.close();
+			output.close();
 			socket.close();	
 		};
-	}
-	
-	public Object infoTrade(){
-		try{
-			
-
-		}catch(Exception e){};
-		return infoTrade();
-		
-		
-		
-	}
-	public void finish(){
-		try{
-			socket.close();	
-		}catch(Exception e){};
-		
 	}
 	public String getMessage() {
 		return message;

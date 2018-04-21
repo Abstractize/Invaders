@@ -122,6 +122,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		g.drawString(String.valueOf(score), (Width*3/4)+30, 160);
 		g.drawString("Level:", (Width*3/4)+10, 240);
 		g.drawString(String.valueOf(Level), (Width*3/4)+30, 300);
+				
 		//Game Over
 		if (gameover) {
 			g.drawString("GAME OVER", (Width/4)+180, Heigth/2);
@@ -130,6 +131,7 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 		
 		g.dispose();
 		}
+	//Verifica el mensaje proveniente del Socket
 	public void verifyMess(String message){
 		if (phone){
 			System.out.println("verify " + message);
@@ -171,7 +173,6 @@ public class Display extends JPanel implements KeyListener, ActionListener {
 			gameover=true;
 			play = false;
 			c.stop();
-			c.finish();
 			
 		}
 	}

@@ -1,12 +1,14 @@
 package game;
 
 public class queue {
+	//Cola de Balas
 	private Nodo head=null;
 	private int length=0;
-	
+	//Verificación de Cola vacía
 	public boolean empty(){//Validar que la cola esté vacia
 		return head == null;
 	}
+	//Agregar elemento a la cola
 	public void enqueue(Bullets value){//Agregar un miembro a la hilera al final
 		Nodo New = new Nodo();
 		New.setValue(value);
@@ -22,10 +24,12 @@ public class queue {
 		}
 		length++;
 	}
+	//Eliminar el primer elemento de la cola
 	public void dequeue() {
 		head = head.getNext();
 		length--;
 	}
+	//Obtener el primer elemento de la cola
 	public Bullets peek() {
 		return head.getValue();
 	}

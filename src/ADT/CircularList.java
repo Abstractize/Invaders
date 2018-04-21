@@ -46,8 +46,8 @@ public class CircularList {
 			New.setNext(tail);
 		}else{
 			tail.setNext(New);
-			New.setNext(head);
 			tail = New;
+			tail.setNext(head);
 		}
 	length++;
 	}
@@ -72,6 +72,7 @@ public class CircularList {
 						tail = null;
 					}else {
 						head = head.getNext();
+						tail.setNext(head);
 					}	
 				}
 				else{

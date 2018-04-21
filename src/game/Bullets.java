@@ -13,13 +13,16 @@ public class Bullets extends JPanel{
 	/**
 	 * 
 	 */
+	//Variables de uso
 	private static final long serialVersionUID = 1L;
+	//Variables de Posición
 	private int PosX;
 	private int PosY;
 	private int PosXinit;
 	private int PosYinit;
 	private int sizeX;
 	private int sizeY;
+	//Variables de Uso
 	private boolean shoot;
 	//imagenes
 	private ImageIcon icon;

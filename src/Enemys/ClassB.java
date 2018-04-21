@@ -104,7 +104,7 @@ public class ClassB extends row{
 	public void collision(Bullets bullet, Display display) {
 		int bullety = bullet.getPosY();
 		int bulletx = bullet.getPosX();
-		if(bullety == this.getPosY() && this.getLength() != 0){
+		if(bullety > this.getPosY() && this.getPosY()+50 > bullety  && this.getLength() != 0){
 			for (int i = 0; i < this.getLength(); i++) {
 				Enemy aux = this.getList().getValue(i);
 				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {

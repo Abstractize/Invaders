@@ -43,13 +43,14 @@ public abstract class SingleRow extends row {
 		}
 	}
 	@Override
-	public void update(int level) {
+	public void update(int level) {//Función que da movimiento a las hileras
 		if (!this.isEliminating()) {
 			if (!this.list.empty()) {
-					for (int i = 0; i < this.getLength(); i++) {
+					for (int i = 0; i < this.getLength(); i++) {//Movimiento en X
 						Enemy aux = this.list.getValue(i);
 						aux.sumPosX(this.getDirec(),level);
 					}
+					//Movimiento en Y
 					if(list.getValue(0).getPosX() < getMinX()){//Cambiar de acuerdo a velocidad
 						this.setDirec(1);
 						this.setPosY(this.getPosY() + 10);
@@ -77,7 +78,7 @@ public abstract class SingleRow extends row {
 	public void collision(Bullets bullet, Display display) {
 		int bullety = bullet.getPosY();
 		int bulletx = bullet.getPosX();
-		if(bullety == this.getPosY()+25 && this.getLength() != 0){
+		if(bullety > this.getPosY() && this.getPosY()+50 > bullety &&this.getLength() != 0){
 			for (int i = 0; i < this.getLength(); i++) {
 				Enemy aux = list.getValue(i);
 				if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+35)) {

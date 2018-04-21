@@ -96,7 +96,7 @@ public class CircularRow extends row{
 		int bullety = bullet.getPosY();
 		int bulletx = bullet.getPosX();
 		if (this.getLength()!= 0){
-			if(bullety == this.getPosY()+25){
+			if(bullety > this.getPosY() && this.getPosY()+50 > bullety){
 				for (int i = 0; i < this.getLength(); i++) {
 					Enemy aux = this.getList().getValue(i);
 					if(aux.getPosX() <= bulletx && bulletx <= (aux.getPosX()+aux.getSizeX())) {
